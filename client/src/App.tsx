@@ -3,12 +3,14 @@ import AccountsPage from './pages/AccountsPage'
 import TransactionsPage from './pages/TransactionsPage'
 import CategoriesPage from './pages/CategoriesPage'
 import DashboardPage from './pages/DashboardPage'
+import ImportsPage from './pages/ImportsPage'
 
-type Page = 'dashboard' | 'transactions' | 'accounts' | 'categories'
+type Page = 'dashboard' | 'transactions' | 'accounts' | 'categories' | 'imports'
 
 const NAV_ITEMS: { id: Page; label: string; icon: string }[] = [
   { id: 'dashboard',    label: 'Dashboard',    icon: '📊' },
   { id: 'transactions', label: 'Transações',   icon: '💳' },
+  { id: 'imports',      label: 'Importar',     icon: '📥' },
   { id: 'accounts',     label: 'Contas',       icon: '🏦' },
   { id: 'categories',   label: 'Categorias',   icon: '🏷️' },
 ]
@@ -49,6 +51,7 @@ export default function App() {
       <main className="flex-1 overflow-auto">
         {page === 'dashboard'    && <DashboardPage />}
         {page === 'transactions' && <TransactionsPage />}
+        {page === 'imports'      && <ImportsPage />}
         {page === 'accounts'     && <AccountsPage />}
         {page === 'categories'   && <CategoriesPage />}
       </main>

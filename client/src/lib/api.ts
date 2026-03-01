@@ -48,6 +48,24 @@ export const api = {
       return request<MonthlySummary>(`/transactions/summary?${qs}`)
     },
   },
+
+  imports: {
+    upload: (file: File, accountId: number) => {
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('accountId', String(accountId))
+      return fetch(`${BASE}/imports`, {
+        method: 'POST',
+        body: formData,
+      }).then((res) => {
+        if (!res.ok) return res.json().then((err) => Promise.reject(new Error(err.error || 'Erro ao importar')))
+        return res.json()
+      })
+    },
+    list: () => request<ImportBatch[]>('/imports'),
+    get: (batchId: number) => request<{ batch: ImportBatch; transactions: TransactionRow[] }>(`/imports/${batchId}`),
+    undo: (batchId: number) => request<{ success: boolean; message: string }>(`/imports/${batchId}`, { method: 'DELETE' }),
+  },
 }
 
 // ── Tipos ──────────────────────────────────────
@@ -120,4 +138,15 @@ export interface MonthlySummary {
     total: number
     count: number
   }>
+}
+
+export interface ImportBatch {
+  id: number
+  accountId: number
+  filename: string
+  bankName: string
+  accountType: AccountType
+  sourceType: 'bank_statement' | 'credit_card_bill'
+  transactionCount: number
+  importedAt: string
 }

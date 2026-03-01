@@ -7,6 +7,7 @@ import { runMigrations } from './migrate.js'
 import accountsRouter from './routes/accounts.js'
 import categoriesRouter from './routes/categories.js'
 import transactionsRouter from './routes/transactions.js'
+import importsRouter from './routes/imports.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const app = express()
@@ -23,6 +24,7 @@ runMigrations()
 app.use('/api/accounts', accountsRouter)
 app.use('/api/categories', categoriesRouter)
 app.use('/api/transactions', transactionsRouter)
+app.use('/api/imports', importsRouter)
 
 // Health check
 app.get('/api/health', (_req, res) => {

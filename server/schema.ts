@@ -35,6 +35,9 @@ export const importBatches = sqliteTable('import_batches', {
   accountId: integer('account_id').notNull(),
   filename: text('filename').notNull(),
   fileType: text('file_type').notNull(),                 // 'csv' | 'ofx' | 'pdf'
+  bankName: text('bank_name').notNull(),                 // ex: "Santander", "XP Investimentos"
+  accountType: text('account_type').notNull(),           // 'bank' | 'credit_card'
+  sourceType: text('source_type').notNull(),             // 'bank_statement' | 'credit_card_bill'
   periodMonth: integer('period_month'),                  // mês de referência (1–12)
   periodYear: integer('period_year'),                    // ano de referência
   transactionCount: integer('transaction_count').notNull().default(0),
