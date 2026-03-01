@@ -8,5 +8,8 @@
     "startCommand": "npm run start",
     "healthcheckPath": "/api/health",
     "restartPolicyType": "ON_FAILURE"
+  },
+  "volumes": {
+    "/data": "budget_db_volume"
   }
 }
