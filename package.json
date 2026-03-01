@@ -2,12 +2,15 @@
   "name": "budget-app",
   "version": "1.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "dev:server": "tsx watch server/index.ts",
     "dev:client": "vite",
-    "build": "vite build && tsc -p tsconfig.server.json",
-    "start": "node dist/server/index.js"
+    "build": "vite build && esbuild server/index.ts --bundle --platform=node --packages=external --format=esm --outdir=dist/server --out-extension:.js=.js",
+    "start": "NODE_ENV=production node dist/server/index.js"
   },
   "dependencies": {
     "better-sqlite3": "^9.4.3",
