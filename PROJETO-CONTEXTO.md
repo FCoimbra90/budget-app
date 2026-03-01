@@ -118,25 +118,38 @@ category_id       -- null = sem categoria (normal e esperado)
 
 ## 🚧 Próximos Passos (Prioridade)
 
-### 1. Módulo de Importação de Extratos (MAIS URGENTE)
-Sem isso o sistema não tem dados. Implementar:
-- `server/routes/imports.ts` — rota POST /api/imports (upload de arquivo)
-- `client/src/pages/ImportsPage.tsx` — tela de importação
-- `server/importParsers/` — parsers por banco:
-  - `santander.ts` — CSV Santander
-  - `safra.ts` — CSV Safra  
-  - `contabilizei.ts` — CSV Contabilizei Bank
-  - `xp-card.ts` — CSV fatura XP
-  - `generic.ts` — CSV genérico configurável
-- Lógica de detecção de `cc_payment` no extrato bancário
-- Lógica de deduplicação (não importar mesma transação duas vezes)
+### 1. ✅ Módulo de Importação de Extratos — IMPLEMENTADO
+- ✅ `server/routes/imports.ts` — rota POST/GET/DELETE /api/imports
+- ✅ `client/src/pages/ImportsPage.tsx` — tela de importação com upload
+- ✅ `server/parsers/` — 6 parsers para bancos suportados:
+  - ✅ `santander.ts` — CSV Santander com múltiplas variações de coluna
+  - ✅ `safra.ts` — CSV Safra
+  - ✅ `contabilizei.ts` — CSV Contabilizei Bank
+  - ✅ `xp-bank.ts` — CSV extrato XP
+  - ✅ `xp-card.ts` — CSV fatura cartão XP
+- ✅ `server/services/importService.ts` — auto-detecção de banco + deduplicação
+- ✅ Detecção automática de `cc_payment` no extrato bancário
+- ✅ Deduplicação por hash (accountId + date + amount + description)
+- ✅ Histórico de importações com opção de desfazer
 
-### 2. Motor de Categorização Automática
+**Status de Teste:**
+- Build local: ✅ Compilação sem erros
+- Ready to deploy: ✅ Código pronto para Railway
+- Exemplo de CSV: 📁 Use arquivos em `Extratos/` para testar
+
+### 2. 🧪 Testar Importação com Arquivo Real
+- Fazer upload de um arquivo CSV de `Extratos/` folder
+- Verificar se transações aparecem em "Transações"
+- Testar toggle Caixa/Competência
+- Testar desfazer importação
+- **Commit:** cb817c2 + a94c046
+
+### 3. Motor de Categorização Automática
 - Aplicar regras de `categorization_rules` ao importar
 - Tela de gestão de regras (CRUD)
 - Sugerir categoria com base em histórico (frequência)
 
-### 3. Volume Persistente no Railway
+### 4. Volume Persistente no Railway
 **IMPORTANTE:** O banco SQLite em produção é apagado a cada novo deploy!
 Para corrigir: no Railway Dashboard → seu projeto → "New Volume" → montar em `/data`
 Sem isso, os dados de produção se perdem quando o código é atualizado.
